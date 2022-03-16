@@ -5,7 +5,18 @@
     </div>
     <div v-else />
     <div v-for="question in questions" :key="question.id">
-      {{ question.text }}
+      <div v-if="question.group === 'A'">
+        {{ question.text }}
+      </div>
+      <div v-else-if="question.group === 'B'">
+        {{ question.text }}
+      </div>
+      <div v-else-if="question.group === 'C'">
+        {{ question.text }}
+      </div>
+      <div v-else-if="question.group === 'D'">
+        {{ question.text }}
+      </div>
     </div>
   </v-app>
 </template>
@@ -29,7 +40,6 @@ export default {
     })
     onSnapshot(questionsCollectionRef, (querySnapshot) => {
       this.questions = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
-      this.questions.sort((a, b) => b.timestamp - a.timestamp)
     })
   }
 }
