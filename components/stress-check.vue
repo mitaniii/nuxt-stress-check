@@ -5,19 +5,25 @@
     </div>
     <div v-else />
     <div v-for="question in questions" :key="question.id">
-      <div v-if="question.group === 'A'">
+      <div v-show="questionsPage === 1" v-if="question.group === 'A'">
         {{ question.text }}
       </div>
-      <div v-else-if="question.group === 'B'">
+      <div v-show="questionsPage === 2" v-else-if="question.group === 'B'">
         {{ question.text }}
       </div>
-      <div v-else-if="question.group === 'C'">
+      <div v-show="questionsPage === 3" v-else-if="question.group === 'C'">
         {{ question.text }}
       </div>
-      <div v-else-if="question.group === 'D'">
+      <div v-show="questionsPage === 4" v-else-if="question.group === 'D'">
         {{ question.text }}
       </div>
     </div>
+    <v-btn v-show="questionsPage < 4" @click="questionsPage = questionsPage + 1">
+      次へ
+    </v-btn>
+    <v-btn v-show="questionsPage > 1" @click="questionsPage = questionsPage - 1">
+      戻る
+    </v-btn>
   </v-app>
 </template>
 
@@ -31,7 +37,8 @@ export default {
   name: 'StressCheck',
   data () {
     return {
-      questions: []
+      questions: [],
+      questionsPage: 2
     }
   },
   mounted () {
