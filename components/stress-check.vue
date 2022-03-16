@@ -1,30 +1,28 @@
 <template>
-  <v-app>
-    <div v-if="user">
-      ユーザー：{{ user.uid }}
+  <div>
+    <v-card-text style="min-height: 150px">
+      <span class="text-h6">
+        {{ question.id }} : {{ question.text }}
+      </span>
+    </v-card-text>
+    <v-chip-group v-model="selected" active-class="primary white--text">
+      <v-chip value="1" style="width: 20%">
+        そうだ:1
+      </v-chip>
+      <v-chip value="2" style="width: 20%">
+        まあそうだ:2
+      </v-chip>
+      <v-chip value="3" style="width: 20%">
+        ややちがう:3
+      </v-chip>
+      <v-chip value="4" style="width: 20%">
+        ちがう:4
+      </v-chip>
+    </v-chip-group>
+    <div>
+      {{ selected }}
     </div>
-    <div v-else />
-    <div v-for="question in questions" :key="question.id">
-      <div v-show="questionsPage === 1" v-if="question.group === 'A'">
-        {{ question.text }}
-      </div>
-      <div v-show="questionsPage === 2" v-else-if="question.group === 'B'">
-        {{ question.text }}
-      </div>
-      <div v-show="questionsPage === 3" v-else-if="question.group === 'C'">
-        {{ question.text }}
-      </div>
-      <div v-show="questionsPage === 4" v-else-if="question.group === 'D'">
-        {{ question.text }}
-      </div>
-    </div>
-    <v-btn v-show="questionsPage < 4" @click="questionsPage = questionsPage + 1">
-      次へ
-    </v-btn>
-    <v-btn v-show="questionsPage > 1" @click="questionsPage = questionsPage - 1">
-      戻る
-    </v-btn>
-  </v-app>
+  </div>
 </template>
 
 <script>
@@ -35,10 +33,16 @@ const questionsCollectionRef = collection(db, 'questions')
 
 export default {
   name: 'StressCheck',
+  props: {
+    question: {
+      type: Object, default: null
+    }
+  },
   data () {
     return {
       questions: [],
-      questionsPage: 2
+      questionsPage: 1,
+      selected: ''
     }
   },
   mounted () {
