@@ -37,9 +37,8 @@ export default {
     login () {
       if (this.email.trim() && this.password.trim()) {
         signInWithEmailAndPassword(auth, this.email, this.password)
-          .then((userCredential) => {
-            // this.$router.push('/')
-            console.log(userCredential)
+          .then(() => {
+            this.$router.push('/')
             this.message = 'Login! : '
           })
           .catch(() => {
