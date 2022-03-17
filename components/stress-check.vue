@@ -19,9 +19,6 @@
         ちがう:4
       </v-chip>
     </v-chip-group>
-    <div>
-      {{ selected }}
-    </div>
   </div>
 </template>
 

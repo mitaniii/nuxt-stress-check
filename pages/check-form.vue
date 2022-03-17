@@ -4,13 +4,13 @@
       <StressCheck v-for="question in questionsA" :key="question.id" :question="question" @selectPoint="points" />
     </div>
     <div v-show="questionsPage === 2">
-      <StressCheck v-for="question in questionsB" :key="question.id" :question="question" />
+      <StressCheck v-for="question in questionsB" :key="question.id" :question="question" @selectPoint="points" />
     </div>
     <div v-show="questionsPage === 3">
-      <StressCheck v-for="question in questionsC" :key="question.id" :question="question" />
+      <StressCheck v-for="question in questionsC" :key="question.id" :question="question" @selectPoint="points" />
     </div>
     <div v-show="questionsPage === 4">
-      <StressCheck v-for="question in questionsD" :key="question.id" :question="question" />
+      <StressCheck v-for="question in questionsD" :key="question.id" :question="question" @selectPoint="points" />
     </div>
     <v-btn v-show="questionsPage < 4" @click="questionsPage = questionsPage + 1">
       次へ
@@ -21,6 +21,7 @@
     <v-btn v-show="questionsPage > 3" @click="addStressCheck">
       診断結果へ
     </v-btn>
+    <div>{{ message }}</div>
   </v-app>
 </template>
 
@@ -45,7 +46,8 @@ export default {
       questionsC: [],
       questionsD: [],
       questionsPage: 1,
-      selected: []
+      selected: [],
+      message: ''
     }
   },
   mounted () {
@@ -62,18 +64,21 @@ export default {
   },
   methods: {
     addStressCheck () {
-      addDoc(stressCheckCollectionRef, {
-        userUid: this.user.uid,
-        userDisplayName: this.user.displayName,
-        timestamp: serverTimestamp(),
-        point: this.selected
-      }).then(() => {
-        this.$router.push('/')
-      })
+      if (this.selected.length === 57) {
+        addDoc(stressCheckCollectionRef, {
+          userUid: this.user.uid,
+          userDisplayName: this.user.displayName,
+          timestamp: serverTimestamp(),
+          point: this.selected
+        }).then(() => {
+          this.$router.push('/')
+        })
+      } else {
+        this.message = '未記入箇所があります'
+      }
     },
     points (value) {
       const index = this.selected.findIndex(el => el.id === value.id)
-      console.log(index)
       if (index < 0) {
         this.selected.push({ ...value })
       } else if (value.point) {
