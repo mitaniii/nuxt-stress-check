@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <div v-show="questionsPage === 1">
-      <StressCheck v-for="question in questionsA" :key="question.id" :question="question" />
+      <StressCheck v-for="question in questionsA" :key="question.id" :question="question" @selectPoint="points" />
     </div>
     <div v-show="questionsPage === 2">
       <StressCheck v-for="question in questionsB" :key="question.id" :question="question" />
@@ -18,15 +18,19 @@
     <v-btn v-show="questionsPage > 1" @click="questionsPage = questionsPage - 1">
       戻る
     </v-btn>
+    <v-btn v-show="questionsPage > 3" @click="addStressCheck">
+      診断結果へ
+    </v-btn>
   </v-app>
 </template>
 
 <script>
-import { collection, onSnapshot } from '@firebase/firestore'
+import { addDoc, collection, onSnapshot, serverTimestamp } from '@firebase/firestore'
 import { onAuthStateChanged } from '@firebase/auth'
 import { auth, db } from '../plugins/firebase'
 import StressCheck from '../components/stress-check'
 const questionsCollectionRef = collection(db, 'questions')
+const stressCheckCollectionRef = collection(db, 'stresschecks')
 
 export default {
   name: 'CheckForm',
@@ -40,7 +44,8 @@ export default {
       questionsB: [],
       questionsC: [],
       questionsD: [],
-      questionsPage: 1
+      questionsPage: 1,
+      selected: []
     }
   },
   mounted () {
@@ -54,6 +59,29 @@ export default {
       this.questionsC = this.questions.filter(value => value.group === 'C')
       this.questionsD = this.questions.filter(value => value.group === 'D')
     })
+  },
+  methods: {
+    addStressCheck () {
+      addDoc(stressCheckCollectionRef, {
+        userUid: this.user.uid,
+        userDisplayName: this.user.displayName,
+        timestamp: serverTimestamp(),
+        point: this.selected
+      }).then(() => {
+        this.$router.push('/')
+      })
+    },
+    points (value) {
+      const index = this.selected.findIndex(el => el.id === value.id)
+      console.log(index)
+      if (index < 0) {
+        this.selected.push({ ...value })
+      } else if (value.point) {
+        this.selected[index] = { ...value }
+      } else {
+        this.selected.splice(index, 1)
+      }
+    }
   }
 }
 </script>
