@@ -64,18 +64,18 @@ export default {
   },
   methods: {
     addStressCheck () {
-      if (this.selected.length === 57) {
-        addDoc(stressCheckCollectionRef, {
-          userUid: this.user.uid,
-          userDisplayName: this.user.displayName,
-          timestamp: serverTimestamp(),
-          point: this.selected
-        }).then(() => {
-          this.$router.push('/')
-        })
-      } else {
-        this.message = '未記入箇所があります'
-      }
+      // if (this.selected.length === 57) {
+      addDoc(stressCheckCollectionRef, {
+        userUid: this.user.uid,
+        userDisplayName: this.user.displayName,
+        timestamp: serverTimestamp(),
+        point: this.selected
+      }).then(() => {
+        this.$router.push('/')
+      })
+      // } else {
+      //   this.message = '未記入箇所があります'
+      // }
     },
     points (value) {
       const index = this.selected.findIndex(el => el.id === value.id)
