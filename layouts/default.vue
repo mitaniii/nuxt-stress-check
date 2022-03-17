@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <v-app-bar>
-      ストレスチェック
+      <v-btn class="mx-5" to="/">
+        ストレスチェック
+      </v-btn>
     </v-app-bar>
     <Nuxt />
   </v-app>

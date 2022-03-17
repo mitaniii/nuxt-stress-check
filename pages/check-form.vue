@@ -12,13 +12,16 @@
     <div v-show="questionsPage === 4">
       <StressCheck v-for="question in questionsD" :key="question.id" :question="question" @selectPoint="points" />
     </div>
-    <v-btn v-show="questionsPage < 4" @click="questionsPage = questionsPage + 1">
+    <div v-show="questionsPage === 5">
+      <Result />
+    </div>
+    <v-btn v-show="questionsPage < 4" class="my-5" depressed color="primary" @click="questionsPage = questionsPage + 1">
       次へ
     </v-btn>
-    <v-btn v-show="questionsPage > 1" @click="questionsPage = questionsPage - 1">
+    <v-btn v-show="questionsPage > 1" class="my-5" depressed color="primary" @click="questionsPage = questionsPage - 1">
       戻る
     </v-btn>
-    <v-btn v-show="questionsPage > 3" @click="addStressCheck">
+    <v-btn v-show="questionsPage > 3" class="my-5" depressed color="primary" @click="addStressCheck">
       診断結果へ
     </v-btn>
     <div>{{ message }}</div>
@@ -30,13 +33,15 @@ import { addDoc, collection, onSnapshot, serverTimestamp } from '@firebase/fires
 import { onAuthStateChanged } from '@firebase/auth'
 import { auth, db } from '../plugins/firebase'
 import StressCheck from '../components/stress-check'
+import result from '../components/result'
 const questionsCollectionRef = collection(db, 'questions')
 const stressCheckCollectionRef = collection(db, 'stresschecks')
 
 export default {
   name: 'CheckForm',
   components: {
-    StressCheck
+    StressCheck,
+    result
   },
   data () {
     return {
@@ -71,7 +76,7 @@ export default {
         timestamp: serverTimestamp(),
         point: this.selected
       }).then(() => {
-        this.$router.push('/')
+        this.questionsPage = this.questionsPage + 1
       })
       // } else {
       //   this.message = '未記入箇所があります'
