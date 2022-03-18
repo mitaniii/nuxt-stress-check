@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     selectPoint () {
-      this.$emit('selectPoint', { id: this.question.id, point: this.selected })
+      this.$emit('selectPoint', { id: this.question.id, group: this.question.group, point: this.selected })
     }
   }
 }

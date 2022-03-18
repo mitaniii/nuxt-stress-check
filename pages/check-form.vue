@@ -50,7 +50,7 @@ export default {
       questionsB: [],
       questionsC: [],
       questionsD: [],
-      questionsPage: 1,
+      questionsPage: 5,
       selected: [],
       message: ''
     }
@@ -74,7 +74,7 @@ export default {
         userUid: this.user.uid,
         userDisplayName: this.user.displayName,
         timestamp: serverTimestamp(),
-        point: this.selected
+        questionpoint: this.selected
       }).then(() => {
         this.questionsPage = this.questionsPage + 1
       })
