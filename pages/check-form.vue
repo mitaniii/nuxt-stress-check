@@ -1,30 +1,44 @@
 <template>
   <v-app>
-    <div v-show="questionsPage === 1">
-      <StressCheck v-for="question in questionsA" :key="question.id" :question="question" @selectPoint="points" />
-    </div>
-    <div v-show="questionsPage === 2">
-      <StressCheck v-for="question in questionsB" :key="question.id" :question="question" @selectPoint="points" />
-    </div>
-    <div v-show="questionsPage === 3">
-      <StressCheck v-for="question in questionsC" :key="question.id" :question="question" @selectPoint="points" />
-    </div>
-    <div v-show="questionsPage === 4">
-      <StressCheck v-for="question in questionsD" :key="question.id" :question="question" @selectPoint="points" />
-    </div>
-    <div v-show="questionsPage === 5">
-      <Result :selected="selected" />
-    </div>
-    <v-btn v-show="questionsPage < 4" class="my-5" depressed color="primary" @click="questionsPage = questionsPage + 1">
-      次へ
-    </v-btn>
-    <v-btn v-show="questionsPage > 1" class="my-5" depressed color="primary" @click="questionsPage = questionsPage - 1">
-      戻る
-    </v-btn>
-    <v-btn v-show="questionsPage > 3" class="my-5" depressed color="primary" @click="addStressCheck">
-      診断結果へ
-    </v-btn>
-    <div>{{ message }}</div>
+    <v-container>
+      <div v-show="questionsPage === 1">
+        A.あなたの仕事についてうかがいます。最もあてはまるものに○を付けてください。
+        <StressCheck v-for="question in questionsA" :key="question.id" :question="question" @selectPoint="points" />
+      </div>
+      <div v-show="questionsPage === 2">
+        B.最近1 か月間のあなたの状態についてうかがいます。最もあてはまるものに○を付けてください。
+        <StressCheck v-for="question in questionsB" :key="question.id" :question="question" @selectPoint="points" />
+      </div>
+      <div v-show="questionsPage === 3">
+        C.あなたの周りの方々についてうかがいます。最もあてはまるものに○を付けてください。
+        <StressCheck v-for="question in questionsC" :key="question.id" :question="question" @selectPoint="points" />
+      </div>
+      <div v-show="questionsPage === 4">
+        D.満足度について
+        <StressCheck v-for="question in questionsD" :key="question.id" :question="question" @selectPoint="points" />
+      </div>
+      <div v-show="questionsPage === 5">
+        <Result :selected="selected" />
+      </div>
+      <div v-show="questionsPage < 5" class="Page-Btn" @click="scrollTop">
+        <i class="fas fa-chevron-up Page-Btn-Icon">
+          ↑
+        </i>
+      </div>
+      <v-footer v-show="questionsPage < 5">
+        <v-btn v-show="questionsPage > 1 && questionsPage < 5" depressed color="primary" @click="questionsPage = questionsPage - 1">
+          戻る
+        </v-btn>
+        <v-spacer />
+        <v-btn v-show="questionsPage < 4" depressed color="primary" @click="questionsPage = questionsPage + 1">
+          次へ
+        </v-btn>
+        <v-btn v-show="questionsPage > 3 && questionsPage < 5" depressed color="primary" @click="addStressCheck">
+          診断結果へ
+        </v-btn>
+      </v-footer>
+      <div>{{ message }}</div>
+    </v-container>
   </v-app>
 </template>
 
@@ -91,11 +105,31 @@ export default {
       } else {
         this.selected.splice(index, 1)
       }
+    },
+    scrollTop: () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      })
     }
   }
 }
 </script>
 
 <style>
-
+.Page-Btn{
+  position: fixed;
+  right: 14px;
+  bottom: 90px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  text-align: center;
+  border-radius: 50%;
+  background: #5bc8ac;
+}
+.Page-Btn-Icon{
+  color: #fff;
+  font-size: 16px;
+}
 </style>

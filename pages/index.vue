@@ -1,28 +1,39 @@
 <template>
   <v-app>
-    <div v-if="user">
-      ユーザー：{{ user.uid }}
-      <v-btn class="mx-5" @click="logout">
-        ログアウト
-      </v-btn>
-      <v-btn class="mx-5" to="/check-form">
-        ストレスチェック開始
-      </v-btn>
-    </div>
-    <div v-else>
-      <v-btn class="mx-5" to="/login">
-        ログイン
-      </v-btn>
-    </div>
+    <v-container class="pt-15 text-center">
+      <div v-if="user">
+        <div class="my-1">
+          {{ user.displayName }} さん
+        </div>
+        <div>
+          <v-btn class="my-10" @click="logout">
+            ログアウト
+          </v-btn>
+        </div>
+        <v-btn to="/check-form" color="primary">
+          ストレスチェック開始
+        </v-btn>
+        <!-- <ResultList /> -->
+      </div>
+      <div v-else>
+        <v-btn class="mx-5" to="/login">
+          ログイン
+        </v-btn>
+      </div>
+    </v-container>
   </v-app>
 </template>
 
 <script>
 import { onAuthStateChanged, signOut } from '@firebase/auth'
 import { auth } from '../plugins/firebase'
+// import ResultList from '../components/result-list'
 
 export default {
   name: 'IndexPage',
+  // components: {
+  //   ResultList
+  // },
   data () {
     return {
       user: ''

@@ -1,32 +1,36 @@
 <template>
   <v-app>
-    <div v-for="list in stressCheckArr" :key="list.id">
-      {{ list.questionpoint }}
-    </div>
-    <div>
-      ストレスチェックは以上です。お疲れさまでした。
-    </div>
-    <div>
-      A: {{ questionsApoint }}
-    </div>
-    <div>
-      B: {{ questionsBpoint }}
-    </div>
-    <div>
-      C: {{ questionsCpoint }}
-    </div>
-    <div>
-      D: {{ questionsDpoint }}
-    </div>
-    <div v-if="questionsBpoint >= 77 || questionsBpoint >= 63 && questionsApoint + questionsCpoint >= 76">
-      判定結果：異常あり
-    </div>
-    <div v-else>
-      判定結果：異常なし
-    </div>
-    <v-btn class="mx-5" to="/">
-      トップページへ
-    </v-btn>
+    <v-container class="pt-15 text-center">
+      <div>
+        ストレスチェックは以上です。
+      </div>
+      <div>
+        お疲れさまでした。
+      </div>
+      <div>
+        A: {{ questionsApoint }}
+      </div>
+      <div>
+        B: {{ questionsBpoint }}
+      </div>
+      <div>
+        C: {{ questionsCpoint }}
+      </div>
+      <div>
+        D: {{ questionsDpoint }}
+      </div>
+      <div class="my-5">
+        <div v-if="questionsBpoint >= 77 || questionsBpoint >= 63 && questionsApoint + questionsCpoint >= 76">
+          判定結果：異常あり
+        </div>
+        <div v-else>
+          判定結果：異常なし
+        </div>
+      </div>
+      <v-btn class="mx-5" to="/" color="primary">
+        トップページへ
+      </v-btn>
+    </v-container>
   </v-app>
 </template>
 
@@ -44,8 +48,8 @@ export default {
   data () {
     return {
       user: '',
-      stressCheckArr: '',
-      stressChecklist: []
+      stressCheckArr: ''
+      // stressChecklist: []
       // questionsA: [],
       // questionsApoint: 0,
       // questionsB: [],
@@ -71,6 +75,9 @@ export default {
     }
   },
   mounted () {
+    onAuthStateChanged(auth, (user) => {
+      this.user = user
+    })
     // this.selected.forEach((item) => {
     //   if (item.group === 'A') {
     //     this.questionsApoint += Number(item.point)
@@ -82,9 +89,6 @@ export default {
     //     this.questionsDpoint += Number(item.point)
     //   }
     // })
-    onAuthStateChanged(auth, (user) => {
-      this.user = user
-    })
     // onSnapshot(stressCheckCollectionRef, (querySnapshot) => {
     //   this.stressCheckArr = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
     //   this.stressCheckArr.forEach((item) => {
