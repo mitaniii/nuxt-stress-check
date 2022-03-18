@@ -13,7 +13,7 @@
       <StressCheck v-for="question in questionsD" :key="question.id" :question="question" @selectPoint="points" />
     </div>
     <div v-show="questionsPage === 5">
-      <Result />
+      <Result :selected="selected" />
     </div>
     <v-btn v-show="questionsPage < 4" class="my-5" depressed color="primary" @click="questionsPage = questionsPage + 1">
       次へ
@@ -50,7 +50,7 @@ export default {
       questionsB: [],
       questionsC: [],
       questionsD: [],
-      questionsPage: 5,
+      questionsPage: 1,
       selected: [],
       message: ''
     }
