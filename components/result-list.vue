@@ -1,19 +1,20 @@
 <template>
   <v-app>
-    <div>
+    <div class="my-4">
       検査履歴
     </div>
     <v-list class="overflow-y-auto" height="150">
       <div v-for="list in resultList" :key="list.id">
         <div>
-          {{ list.userDisplayName }}さん : {{ $dateFns.format(list.timestamp.toDate(), 'yyyy-MM-dd HH:mm') }}
+          {{ $dateFns.format(list.timestamp.toDate(), 'yyyy-MM-dd HH:mm') }}
+          の結果を見る
           <v-icon color="blue" @click="selected = list.questionpoint;time = list.timestamp">
             mdi-eye-circle-outline
           </v-icon>
         </div>
       </div>
     </v-list>
-    <div v-if="time !== ''" class="my-10">
+    <div v-if="time !== '' && selected !== ''" class="my-10">
       <v-card>
         {{ user.displayName }}さん
         {{ $dateFns.format(time.toDate(), 'yyyy-MM-dd HH:mm') }}
@@ -24,6 +25,9 @@
     </div>
     <div v-if="selected !== ''" class="my-5">
       <ResultHistory :selected="selected" />
+      <v-btn class="mx-10" color="primary" @click="selected = ''">
+        閉じる
+      </v-btn>
     </div>
     <div v-else />
   </v-app>

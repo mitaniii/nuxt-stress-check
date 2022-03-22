@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container class="pt-15 text-center">
+    <v-container class="pt-15 text-center" height="150">
       <div v-if="user">
         <div class="my-1">
           {{ user.displayName }} さん

@@ -1,27 +1,25 @@
 <template>
   <v-app>
-    <v-container class="text-center">
-      <div>
-        A: {{ questionsApoint }}
+    <div>
+      A: {{ questionsApoint }}
+    </div>
+    <div>
+      B: {{ questionsBpoint }}
+    </div>
+    <div>
+      C: {{ questionsCpoint }}
+    </div>
+    <div>
+      D: {{ questionsDpoint }}
+    </div>
+    <div class="my-5">
+      <div v-if="questionsBpoint >= 77 || questionsBpoint >= 63 && questionsApoint + questionsCpoint >= 76">
+        判定結果：異常あり
       </div>
-      <div>
-        B: {{ questionsBpoint }}
+      <div v-else>
+        判定結果：異常なし
       </div>
-      <div>
-        C: {{ questionsCpoint }}
-      </div>
-      <div>
-        D: {{ questionsDpoint }}
-      </div>
-      <div class="my-5">
-        <div v-if="questionsBpoint >= 77 || questionsBpoint >= 63 && questionsApoint + questionsCpoint >= 76">
-          判定結果：異常あり
-        </div>
-        <div v-else>
-          判定結果：異常なし
-        </div>
-      </div>
-    </v-container>
+    </div>
   </v-app>
 </template>
 
