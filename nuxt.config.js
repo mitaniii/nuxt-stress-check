@@ -43,6 +43,7 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/date-fns',
     '@nuxtjs/dotenv'
   ],
 

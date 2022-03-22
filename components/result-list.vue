@@ -3,15 +3,26 @@
     <div>
       検査履歴
     </div>
-    <div v-for="list in resultList" :key="list.id">
-      <div>
-        {{ list.userDisplayName }}さん : {{ list.timestamp.toDate() }}
-        <v-icon color="blue" @click="selected = list.questionpoint">
-          mdi-eye-circle-outline
-        </v-icon>
+    <v-list class="overflow-y-auto" height="150">
+      <div v-for="list in resultList" :key="list.id">
+        <div>
+          {{ list.userDisplayName }}さん : {{ $dateFns.format(list.timestamp.toDate(), 'yyyy-MM-dd HH:mm') }}
+          <v-icon color="blue" @click="selected = list.questionpoint;time = list.timestamp">
+            mdi-eye-circle-outline
+          </v-icon>
+        </div>
       </div>
+    </v-list>
+    <div v-if="time !== ''" class="my-10">
+      <v-card>
+        {{ user.displayName }}さん
+        {{ $dateFns.format(time.toDate(), 'yyyy-MM-dd HH:mm') }}
+        <div>
+          のストレスチェックの結果
+        </div>
+      </v-card>
     </div>
-    <div v-if="selected !== ''">
+    <div v-if="selected !== ''" class="my-5">
       <ResultHistory :selected="selected" />
     </div>
     <div v-else />
@@ -33,7 +44,8 @@ export default {
     return {
       user: '',
       resultList: '',
-      selected: ''
+      selected: '',
+      time: ''
     }
   },
   mounted () {
@@ -42,6 +54,7 @@ export default {
     })
     onSnapshot(stressCheckCollectionRef, (querySnapshot) => {
       this.resultList = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
+      this.resultList.sort((a, b) => b.timestamp - a.timestamp)
     })
   }
 }

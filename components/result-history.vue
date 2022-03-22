@@ -1,9 +1,6 @@
 <template>
   <v-app>
-    <v-container class="pt-15 text-center">
-      <div>
-        ストレスチェックの結果
-      </div>
+    <v-container class="text-center">
       <div>
         A: {{ questionsApoint }}
       </div>

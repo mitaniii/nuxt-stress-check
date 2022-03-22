@@ -1,6 +1,16 @@
 <template>
   <v-container>
     <div>
+      <div v-if="question.area === '1'">
+        次の人たちはどのくらい気軽に話ができますか?
+      </div>
+      <div v-if="question.area === '2'">
+        あなたが困った時、次の人たちはどのくらい頼りになりますか?
+      </div>
+      <div v-if="question.area === '3'">
+        あなたの個人的な問題を相談したら、次の人たちはどのくらいきいてくれますか?
+      </div>
+      <div v-else />
       <v-card-text style="min-height: 150px">
         <span class="text-h6">
           {{ question.id }} : {{ question.text }}

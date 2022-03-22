@@ -30,7 +30,7 @@
           戻る
         </v-btn>
         <v-spacer />
-        <v-btn v-show="questionsPage < 4" depressed color="primary" @click="questionsPage = questionsPage + 1">
+        <v-btn v-show="questionsPage < 4" depressed color="primary" @click="scrollTop();questionsPage = questionsPage + 1">
           次へ
         </v-btn>
         <v-btn v-show="questionsPage > 3 && questionsPage < 5" depressed color="primary" @click="addStressCheck">
@@ -109,7 +109,7 @@ export default {
     scrollTop: () => {
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
+        behavior: 'auto'
       })
     }
   }
