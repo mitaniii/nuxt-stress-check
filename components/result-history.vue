@@ -1,30 +1,65 @@
 <template>
   <v-app>
-    <div>
-      Resulthistory
-    </div>
+    <v-container class="pt-15 text-center">
+      <div>
+        ストレスチェックの結果
+      </div>
+      <div>
+        A: {{ questionsApoint }}
+      </div>
+      <div>
+        B: {{ questionsBpoint }}
+      </div>
+      <div>
+        C: {{ questionsCpoint }}
+      </div>
+      <div>
+        D: {{ questionsDpoint }}
+      </div>
+      <div class="my-5">
+        <div v-if="questionsBpoint >= 77 || questionsBpoint >= 63 && questionsApoint + questionsCpoint >= 76">
+          判定結果：異常あり
+        </div>
+        <div v-else>
+          判定結果：異常なし
+        </div>
+      </div>
+    </v-container>
   </v-app>
 </template>
 
 <script>
-import { collection, onSnapshot } from '@firebase/firestore'
 import { onAuthStateChanged } from '@firebase/auth'
-import { auth, db } from '../plugins/firebase'
-const stressCheckCollectionRef = collection(db, 'stresschecks')
+import { auth } from '../plugins/firebase'
+
 export default {
-  name: 'ResultListPage',
+  name: 'ResultHistoryPage',
+  props: {
+    selected: { type: Array, default: null }
+  },
   data () {
     return {
       user: '',
-      resultList: ''
+      stressCheckArr: ''
+    }
+  },
+  computed: {
+    questionsApoint () {
+      return this.selected.filter(item => item.group === 'A').reduce((sum, item) => (sum += Number(item.point)), 0)
+    },
+    questionsBpoint () {
+      return this.selected.filter(item => item.group === 'B').reduce((sum, item) => (sum += Number(item.point)), 0)
+    },
+    questionsCpoint () {
+      return this.selected.filter(item => item.group === 'C').reduce((sum, item) => (sum += Number(item.point)), 0)
+    },
+    questionsDpoint () {
+      return this.selected.filter(item => item.group === 'D').reduce((sum, item) => (sum += Number(item.point)), 0)
     }
   },
   mounted () {
     onAuthStateChanged(auth, (user) => {
       this.user = user
-    })
-    onSnapshot(stressCheckCollectionRef, (querySnapshot) => {
-      this.resultList = querySnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }))
     })
   }
 }

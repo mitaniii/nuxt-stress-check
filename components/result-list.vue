@@ -1,14 +1,20 @@
 <template>
   <v-app>
     <div>
-      ResultListPage
+      検査履歴
     </div>
     <div v-for="list in resultList" :key="list.id">
       <div>
-        {{ list.userDisplayName }}
+        {{ list.userDisplayName }}さん : {{ list.timestamp.toDate() }}
+        <v-icon color="blue" @click="selected = list.questionpoint">
+          mdi-eye-circle-outline
+        </v-icon>
       </div>
     </div>
-    <ResultHistory />
+    <div v-if="selected !== ''">
+      <ResultHistory :selected="selected" />
+    </div>
+    <div v-else />
   </v-app>
 </template>
 
@@ -26,7 +32,8 @@ export default {
   data () {
     return {
       user: '',
-      resultList: ''
+      resultList: '',
+      selected: ''
     }
   },
   mounted () {

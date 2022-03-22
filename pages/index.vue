@@ -10,10 +10,10 @@
             ログアウト
           </v-btn>
         </div>
-        <v-btn to="/check-form" color="primary">
+        <v-btn class="my-10" to="/check-form" color="primary">
           ストレスチェック開始
         </v-btn>
-        <!-- <ResultList /> -->
+        <ResultList />
       </div>
       <div v-else>
         <v-btn class="mx-5" to="/login">
